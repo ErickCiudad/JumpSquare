@@ -40,7 +40,8 @@
         y: 0,
         width:32 ,
         height:32 ,
-        speed: 8,
+        speedX: 12,
+        speedY: 20,
         sprite: new Image()
     }
 
@@ -69,10 +70,10 @@
     function update() {
         //player controls
 
-        if (engine.key("W")) player.y -= 20;
-        if (engine.key("A")) player.x -= player.speed;
-        if (engine.key("S")) player.y += player.speed;
-        if (engine.key("D")) player.x += player.speed;
+        if (engine.key("W")) player.y -= player.speedY;
+        if (engine.key("A")) player.x -= player.speedX;
+        if (engine.key("S")) player.y += player.speedY;
+        if (engine.key("D")) player.x += player.speedX;
 
 
         //enemy controls
@@ -219,11 +220,13 @@
 
     function jump(){
         var standingPoint = player.y;
-        if (player.y = standingPoint+ 5){
+        if (player.y != standingPoint) {
+            return;
+        }
+        if (player.y === standingPoint+ 5){
             player.y = 640;
         }
     }
-    setInterval(jump,1000);
 
 </script>
 </body>
