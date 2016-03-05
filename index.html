@@ -53,6 +53,13 @@
         y: Math.floor((Math.random() * 570) + 32) ,
         width:32,
         height:32,
+    };
+
+    function solid(x,y,width,height) {
+        solid.x = x;
+        solid.y = y;
+        solid.width = width;
+        solid.height = height;
     }
 
     //square imgs
@@ -137,11 +144,9 @@
 //
 //
 //        }
-//        if (collision (player,enemy2)) {
+//        if (collision (player,solid)) {
 ////            alert("you lost!");
-//            location.reload();
-//
-//
+//        player.speedY = 0;
 //        }
 
         // CHECKS FOR COLLISION BETWEEN POWERUP & PLAYER
@@ -165,34 +170,24 @@
 //        context.drawImage(enemy2.sprite, enemy2.x, enemy2.y, enemy2.width, enemy2.height);
         context.fillStyle =  "gold"; context.fillRect(  powerUp.x, powerUp.y, powerUp.width, powerUp.height );
 
-
-
+        //spawn a block
+        context.fillStyle = "black"; context.fillRect(640, 540, 100, 100);
     }
 
-    //COLLISION FUNCTION
-//
-//    function collision(rect1,rect2) {
-//
-//        if (rect1.x < rect2.x + rect2.width &&
-//                rect1.x + rect1.width > rect2.x &&
-//                rect1.y < rect2.y + rect2.height &&
-//                rect1.height + rect1.y > rect2.y) {
-//            return true;
-//
-//        }
-//        return false;
-//    }
-    //    function collisionEnemy(rect1,rect2) {
-    //
-    //        if (rect1.x < rect2.x + rect2.width &&
-    //                rect1.x + rect1.width > rect2.x &&
-    //                rect1.y < rect2.y + rect2.height &&
-    //                rect1.height + rect1.y > rect2.y) {
-    //            return true;
-    //
-    //        }
-    //        return false;
-    //    }
+   // COLLISION FUNCTION
+
+    function collision(rect1,rect2) {
+
+        if (rect1.x < rect2.x + rect2.width &&
+                rect1.x + rect1.width > rect2.x &&
+                rect1.y < rect2.y + rect2.height &&
+                rect1.height + rect1.y > rect2.y) {
+            return true;
+
+        }
+        return false;
+    }
+
     //COLLISION WITH POWERUP
     function powerCollide(rect1,rect2) {
 
