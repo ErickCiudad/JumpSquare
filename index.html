@@ -44,7 +44,9 @@
         speedY: 20,
         status: 'normal',
         peak: false,
-        sprite: new Image()
+        sprite: new Image(),
+        oldX:0,
+        oldY:0
     };
 
     //power up details
@@ -90,7 +92,7 @@
 
         if (engine.key("W")) jump();//if (player.peak === false) player.y -= player.speedY; player.status = 'midAir';
         if (engine.key("A")) player.x -= player.speedX;
-        if (engine.key("S")) player.y += player.speedY;
+//        if (engine.key("S")) player.y += player.speedY;
         if (engine.key("D")) player.x += player.speedX;
         if (engine.key("SPACE")) player.peak = false;
 
@@ -115,7 +117,9 @@
             player.y=0
         }
         if (player.x + player.width>1416) {
+            player.status = 'normal';
             player.x=1416-player.width;
+
         }
         if (player.y + player.height>640) {
             player.y=640-player.height;
@@ -188,8 +192,15 @@
 //            player.y= solid.y - player.width;
 //            player.x=solid.width-player.width;
 //            player.y=solid.height-player.height;
+//            player.status = 'normal';
+
+
             player.y -=7.2;
-            player.speedY = 0;
+            player.peak = false;
+//            player.speedY = 0;
+
+//            player.x = player.oldX;
+//            player.y = player.oldY;
         }
 
 
@@ -228,23 +239,43 @@
                 rect1.x + rect1.width > rect2.x &&
                 rect1.y < rect2.y + rect2.height &&
                 rect1.height + rect1.y > rect2.y) {
+
             return true;
 
         }
         return false;
     }
 
-    function solidCollide(rect1,rect2) {
+//    function solidCollide(rect1,rect2) {
+//
+//        if (rect1.x < rect2.x + rect2.width) {return true;}
+//        if (rect1.x + rect1.width > rect2.x) {return true;}
+//        if (rect1.y < rect2.y + rect2.height) {return true;}
+//        if (rect1.height + rect1.y > rect2.y) {return true;}
+//
+////separate y and x
+    // screw it just make the rectangles flat
+//
+//        return false;
+//    }
+
+   function solidCollide(rect1,rect2) {
 
         if (rect1.x < rect2.x + rect2.width &&
                 rect1.x + rect1.width > rect2.x &&
                 rect1.y < rect2.y + rect2.height &&
                 rect1.height + rect1.y > rect2.y) {
             return true;
-
+//separate y and x
         }
         return false;
     }
+
+    function checkOlds(){
+        player.oldX = player.x;
+        player.oldY = player.y;
+    }
+    setInterval(checkOlds,130);
 
     // Powerup Respawn
     setInterval(function() {
@@ -258,7 +289,9 @@
     //    }, 1000);
 
     function gravity(){
-        player.y +=2.5;
+        if (player.status = 'midAir') {
+            player.y += 2.5;
+        }
     }
     setInterval(gravity,5);
 
