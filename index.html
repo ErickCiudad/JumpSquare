@@ -63,7 +63,15 @@
         width:80 ,
         height:80 ,
         sprite: new Image()
-    }
+    };
+
+    var solidFloor = {
+        x: 500,
+        y: 200,
+        width:180 ,
+        height:10 ,
+        sprite: new Image()
+    };
 
 //    function solid(x,y,width,height) {
 //        solid.x = x;
@@ -75,6 +83,7 @@
     //square imgs
     player.sprite.src = "blueSquare.jpg";
     solid.sprite.src = "blackSquare.png";
+    solidFloor.sprite.src = "blackSquare.png";
     //    enemy.sprite.src = "redSquare.png";
 //    enemy2.sprite.src = "redSquare.png";
 
@@ -94,8 +103,8 @@
         if (engine.key("A")) player.x -= player.speedX;
 //        if (engine.key("S")) player.y += player.speedY;
         if (engine.key("D")) player.x += player.speedX;
-        if (engine.key("SPACE")) player.peak = false;
-
+//        if (engine.key("SPACE")) player.peak = false;
+//GOODBYE SPACE :^)
 
         //enemy controls
 //
@@ -117,11 +126,13 @@
             player.y=0
         }
         if (player.x + player.width>1416) {
-            player.status = 'normal';
+            player.peak = false;
             player.x=1416-player.width;
 
         }
         if (player.y + player.height>640) {
+            player.peak = false;
+
             player.y=640-player.height;
         }
         //////Attempt at collision between solids
@@ -178,7 +189,7 @@
 
         // CHECKS FOR COLLISION BETWEEN POWERUP & PLAYER
         if (powerCollide (player,powerUp)) {
-            player.speed+=2;
+            player.speedX+=10;
 
             setTimeout(function(){
                 player.speed-=2;
@@ -194,7 +205,6 @@
 //            player.y=solid.height-player.height;
 //            player.status = 'normal';
 
-
             player.y -=7.2;
             player.peak = false;
 //            player.speedY = 0;
@@ -204,12 +214,18 @@
         }
 
 
+        if(solidFloorCollide (player,solidFloor)) {
+            player.y -=7.2;
+            player.peak = false;
+        }
+
     }
     // RENDERS OBJECTS
     function render(context) {
         engine.clear();
         context.drawImage(player.sprite, player.x, player.y, player.width , player.height);
         context.drawImage(solid.sprite, solid.x, solid.y, solid.width , solid.height);
+        context.drawImage(solidFloor.sprite, solidFloor.x, solidFloor.y, solidFloor.width , solidFloor.height);
 //        context.drawImage(enemy.sprite, enemy.x, enemy.y, enemy.width , enemy.height );
 //        context.drawImage(enemy2.sprite, enemy2.x, enemy2.y, enemy2.width, enemy2.height);
         context.fillStyle =  "gold"; context.fillRect(  powerUp.x, powerUp.y, powerUp.width, powerUp.height );
@@ -231,6 +247,8 @@
         }
         return false;
     }
+
+
 
     //COLLISION WITH POWERUP
     function powerCollide(rect1,rect2) {
@@ -260,6 +278,18 @@
 //    }
 
    function solidCollide(rect1,rect2) {
+
+        if (rect1.x < rect2.x + rect2.width &&
+                rect1.x + rect1.width > rect2.x &&
+                rect1.y < rect2.y + rect2.height &&
+                rect1.height + rect1.y > rect2.y) {
+            return true;
+//separate y and x
+        }
+        return false;
+    }
+
+    function solidFloorCollide(rect1,rect2) {
 
         if (rect1.x < rect2.x + rect2.width &&
                 rect1.x + rect1.width > rect2.x &&
