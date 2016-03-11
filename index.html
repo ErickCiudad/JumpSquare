@@ -34,6 +34,10 @@
 //        sprite: new Image()
 //    }
 
+//    function rawestFunction (){
+//
+//    }
+
     //player details
     var player = {
         x: 0,
@@ -73,12 +77,48 @@
         sprite: new Image()
     };
 
-//    function solid(x,y,width,height) {
-//        solid.x = x;
-//        solid.y = y;
-//        solid.width = width;
-//        solid.height = height;
-//    }
+//var s = new spawnSolid();
+//    s.renderSolid();
+//    this.x =
+    //object oriented programming
+
+            function spawnSolid(x,y,width,height) {
+        //makes the variable, gives it characteristics
+        var newSolid = {
+            x: x,
+            y: y,
+            width: width,
+            height: height,
+            sprite: new Image()
+        };
+        //draws it on the canvas
+        newSolid.sprite.src = "blackSquare.png";
+
+        function renderSolid(context) {
+//            engine.clear();
+
+            context.drawImage(newSolid.sprite, newSolid.x, newSolid.y, newSolid.width , newSolid.height);
+        }
+        renderSolid(engine.context);
+
+        //sets physics associated with solid
+        function solidPhysics(rect1,rect2) {
+
+            if (rect1.x < rect2.x + rect2.width &&
+                    rect1.x + rect1.width > rect2.x &&
+                    rect1.y < rect2.y + rect2.height &&
+                    rect1.height + rect1.y > rect2.y) {
+                return true;
+            }
+            return false;
+        }
+
+        if (solidPhysics() (player,newSolid)) {
+            player.y -=7.2;
+            player.peak = false;
+        }
+    }
+//    spawnSolid(100,100,100,500);
 
     //square imgs
     player.sprite.src = "blueSquare.jpg";
@@ -226,6 +266,8 @@
         context.drawImage(player.sprite, player.x, player.y, player.width , player.height);
         context.drawImage(solid.sprite, solid.x, solid.y, solid.width , solid.height);
         context.drawImage(solidFloor.sprite, solidFloor.x, solidFloor.y, solidFloor.width , solidFloor.height);
+//        context.drawImage(newSolid.sprite, newSolid.x, newSolid.y, newSolid.width , newSolid.height);
+
 //        context.drawImage(enemy.sprite, enemy.x, enemy.y, enemy.width , enemy.height );
 //        context.drawImage(enemy2.sprite, enemy2.x, enemy2.y, enemy2.width, enemy2.height);
         context.fillStyle =  "gold"; context.fillRect(  powerUp.x, powerUp.y, powerUp.width, powerUp.height );
